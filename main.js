@@ -1,5 +1,5 @@
 
-const arr = [{author: 'name', title: 'a', genre: 'fiction'}, {author: 'name2', title: 'b', genre: 'comedy'}, {author: 'name3', title: 'c', genre: 'horror'}];
+const arr = [{author: 'Достоевский Ф. М.', title: 'Игрок', genre: 'Роман'}, {author: 'Смолин А. П.', title: 'Ремонт эксковатора Э-505', genre: 'Пособие'}, {author: 'Харари Ю.', title: 'Sapiens. Краткая история человечества', genre: 'Научпоп'}];
 function showBooks(arr) {
     const tableBody = document.querySelector('.tbody');
     let tableRow = '';

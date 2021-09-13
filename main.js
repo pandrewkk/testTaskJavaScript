@@ -4,7 +4,17 @@ const books = [
     {id: 3, author: 'Харари Ю.', title: 'Sapiens. Краткая история человечества', genre: 'Научпоп'}
 ];
 
-const table = document.querySelector("table");
+function generateTableHead(table, data) {
+    let thead = table.createTHead();
+    let row = thead.insertRow();
+    for (let key of data) {
+        let th = document.createElement("th");
+        let text = document.createTextNode(key);
+        th.appendChild(text);
+        row.appendChild(th);
+    }
+}
+
 
 function showBooks(table, books) {
     for (let element of books) {
@@ -17,4 +27,10 @@ function showBooks(table, books) {
     }
 }
 
-showBooks(table, books);
+const root = document.querySelector('body');
+const createTable = document.createElement('table');
+const data = ['id', 'Автор', 'Название', 'Жанр']
+generateTableHead(createTable, data);
+showBooks(createTable, books);
+root.appendChild(createTable);
+

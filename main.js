@@ -15,10 +15,10 @@ function generateTableHead(table, data) {
     }
 }
 
-
 function showBooks(table, books) {
     for (let element of books) {
         let row = table.insertRow();
+        rows.push(row);
         for (let key in element) {
             let cell = row.insertCell();
             let text = document.createTextNode(element[key]);
@@ -27,10 +27,25 @@ function showBooks(table, books) {
     }
 }
 
+const rows = [];
 const root = document.querySelector('body');
 const createTable = document.createElement('table');
 const data = ['id', 'Автор', 'Название', 'Жанр']
 generateTableHead(createTable, data);
 showBooks(createTable, books);
 root.appendChild(createTable);
+
+const p = document.createElement('p');
+root.append(p);
+
+for (let i = 0; i < rows.length; i++){
+    let row = rows[i];
+    row.onclick = function() {
+        let string = '';
+            for (let key in books[i]) {
+                string += books[i][key] + " ";
+            }
+        p.textContent = string;
+    }
+}
 

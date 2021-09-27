@@ -14,28 +14,41 @@ function generateTableHead(table, data) {
         let text = document.createTextNode(key);
         th.appendChild(text);
         row.appendChild(th);
+
     }
+
+    const row1 = document.createElement('td');
+    let btm = document.createElement('button');
+    btm.id='cm5';
+    btm.onclick = function (event) {
+
+    }
+    btm.textContent = 'Добавить';
+    row1.appendChild(btm);
+    row.appendChild(row1);
 }
 
 function showBooks(table, books) {
-    for (let element of books) {
+    for (let i = 0; i < books.length; i++) {
+        let element = books[i];
         let row = table.insertRow();
         rows.push(row);
         let key = Object.keys(element);
-        for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
             let cell = row.insertCell();
-            let text = document.createTextNode(element[key[i]]);
+            let text = document.createTextNode(element[key[j]]);
             cell.append(text);
         }
-
+        const row1 = document.createElement('td');
         let btm = document.createElement('button');
         btm.id='cm3';
-        btm.onclick = function (evt) {
-            evt.preventDefault();
-            console.log('!');
+        btm.onclick = function (event) {
+            event.stopPropagation();
+            rows[i].remove();
         }
-        btm.textContent = '!';
-        row.appendChild(btm);
+        btm.textContent = 'Удалить';
+        row1.appendChild(btm);
+        row.appendChild(row1);
     }
 }
 

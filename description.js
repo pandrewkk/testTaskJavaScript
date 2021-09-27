@@ -32,6 +32,13 @@ export function showDescription(rows, books) {
             descriptionBook.append(title, author, genre, year, description, image);
             table.replaceWith( descriptionBook );
             descriptionBook.classList.add('descriptionBook');
+            let btm = document.createElement('button');
+            btm.id='cm4';
+            btm.onclick = function () {
+                descriptionBook.replaceWith(table);
+            }
+            btm.textContent = 'Назад';
+            descriptionBook.append(btm);
         }
     }
 }

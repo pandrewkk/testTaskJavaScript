@@ -25,10 +25,21 @@ function showBooks(table, books) {
         for (let i = 0; i < 4; i++) {
             let cell = row.insertCell();
             let text = document.createTextNode(element[key[i]]);
-            cell.appendChild(text);
+            cell.append(text);
         }
+
+        let btm = document.createElement('button');
+        btm.id='cm3';
+        btm.onclick = function (evt) {
+            evt.preventDefault();
+            console.log('!');
+        }
+        btm.textContent = '!';
+        row.appendChild(btm);
     }
 }
+
+
 
 const rows = [];
 const root = document.querySelector('body');

@@ -6,7 +6,7 @@ const dataBooks = [
     {id: 3, author: 'Харари Ю.', title: 'Sapiens. Краткая история человечества', genre: 'Научпоп', cover: 'assets/image3.jpg', year: '2011', description: 'Юваль Харари показывает , как ход истории формировал человеческое общество и действительность вокруг него.'}
 ];
 
-function generateTableHead(table, data) {
+function generateTableHead(table, tbody, data) {
     let thead = table.createTHead();
     let row = thead.insertRow();
     for (let key of data) {
@@ -31,7 +31,6 @@ function generateTableHead(table, data) {
         newBook.description = prompt('Запишите описание произведения', 'Вечный роман о несбывшейся любви великого классика мировой литературы А.С Пушкина'),
         dataBooks.push(newBook);
         console.log(dataBooks);
-        const tbody = table.createTBody();
         const row = tbody.insertRow();
         tableRows.push(row);
         const key = Object.keys(newBook);
@@ -58,10 +57,9 @@ function generateTableHead(table, data) {
     row.appendChild(row1);
 }
 
-function showBooks(table, books) {
+function showBooks(tbody, books) {
     for (let i = 0; i < books.length; i++) {
         let element = books[i];
-        const tbody = table.createTBody();
         const row = tbody.insertRow();
         tableRows.push(row);
         let key = Object.keys(element);
@@ -85,40 +83,47 @@ function showBooks(table, books) {
 const tableRows = [];
 const root = document.querySelector('body');
 const createTable = document.createElement('table');
+createTable.classList.add('table-sortable');
+const createTBody = createTable.createTBody();
 const data = ['id', 'Автор', 'Название', 'Жанр']
-generateTableHead(createTable, data);
-showBooks(createTable, dataBooks);
+generateTableHead(createTable, createTBody, data);
+showBooks(createTBody, dataBooks);
 root.appendChild(createTable);
 showDescription(tableRows, dataBooks);
 
+function sortTableByColumn(table, column, asc = true) {
+    const dirModifier = asc ? 1 : -1;
+    const tBody = table.tBodies[0];
+    const rows = Array.from(tBody.querySelectorAll("tr"));
 
-const table = document.querySelector('table');
+    // Sort each row
+    const sortedRows = rows.sort((a, b) => {
+        const aColText = a.querySelector(`td:nth-child(${ column + 1 })`).textContent.trim();
+        const bColText = b.querySelector(`td:nth-child(${ column + 1 })`).textContent.trim();
 
-const sortTable = function (index) {
-    const tbody = table.querySelector('tbody');
+        return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
+    });
 
-    const compare = function (rowA, rowB) {
-        return rowA.cells[index].innerHTML - rowB.cells[index].innerHTML;
+    // Remove all existing TRs from the table
+    while (tBody.firstChild) {
+        tBody.removeChild(tBody.firstChild);
     }
 
-    let rows = [].slice.call(tbody.rows);
+    // Re-add the newly sorted rows
+    tBody.append(...sortedRows);
 
-    rows.sort(compare);
-
-    table.removeChild(tbody);
-
-    for (let i = 0; i < rows.length; i++) {
-        tbody.appendChild(rows[i]);
-    }
-
-    table.appendChild(tbody);
+    // Remember how the column is currently sorted
+    table.querySelectorAll("th").forEach(th => th.classList.remove("th-sort-asc", "th-sort-desc"));
+    table.querySelector(`th:nth-child(${ column + 1})`).classList.toggle("th-sort-asc", asc);
+    table.querySelector(`th:nth-child(${ column + 1})`).classList.toggle("th-sort-desc", !asc);
 }
 
-table.addEventListener('click', (e) => {
-    const el = e.target;
-    if (el.nodeName !== 'TH') return;
+document.querySelectorAll(".table-sortable th").forEach(headerCell => {
+    headerCell.addEventListener("click", () => {
+        const tableElement = headerCell.parentElement.parentElement.parentElement;
+        const headerIndex = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
+        const currentIsAscending = headerCell.classList.contains("th-sort-asc");
 
-    const index = el.cellIndex;
-    sortTable(index);
-
+        sortTableByColumn(tableElement, headerIndex, !currentIsAscending);
+    });
 });

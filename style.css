@@ -65,3 +65,15 @@ img{
 .table-sortable .th-sort-desc {
     background: rgba(0, 0, 0, 0.1);
 }
+
+.addNewBook {
+    display: grid;
+    width: 300px;
+    padding: 20px;
+    margin: 0;
+    grid-template-columns: 150px 150px;
+    gap: 20px;
+}
+
+
+

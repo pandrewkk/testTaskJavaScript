@@ -1,44 +1,41 @@
-export function showDescription(rows, books) {
-    for (let i = 0; i < rows.length; i++){
-        let row = rows[i];
-        row.onclick = function() {
-            const title = document.createElement('p');
-            title.textContent = books[i].title;
-            title.classList.add('title');
+import {getBookById} from "./store.js";
 
-            const author = document.createElement('p');
-            author.textContent = books[i].author;
-            author.classList.add('author');
+export function showDescription(id) {
+    const book = getBookById(id);
 
-            const genre = document.createElement('p');
-            genre.textContent = books[i].genre;
-            genre.classList.add('genre');
+    const title = document.createElement('p');
+    title.textContent = book.title;
+    title.classList.add('title');
 
-            const year = document.createElement('p');
-            year.textContent = books[i].year;
-            year.classList.add('year');
+    const author = document.createElement('p');
+    author.textContent = book.author;
+    author.classList.add('author');
 
-            const description = document.createElement('p');
-            description.textContent = books[i].description;
-            description.classList.add('description');
+    const genre = document.createElement('p');
+    genre.textContent = book.genre;
+    genre.classList.add('genre');
 
-            const image = document.createElement('img');
-            let cover = books[i].cover;
-            image.src  = cover;
+    const year = document.createElement('p');
+    year.textContent = book.year;
+    year.classList.add('year');
 
-            const table = document.querySelector('table');
-            const descriptionBook = document.createElement('div');
+    const description = document.createElement('p');
+    description.textContent = book.description;
+    description.classList.add('description');
 
-            descriptionBook.append(title, author, genre, year, description, image);
-            table.replaceWith( descriptionBook );
-            descriptionBook.classList.add('descriptionBook');
-            let btm = document.createElement('button');
-            btm.id='cm4';
-            btm.onclick = function () {
-                descriptionBook.replaceWith(table);
-            }
-            btm.textContent = 'Назад';
-            descriptionBook.append(btm);
-        }
+    const image = document.createElement('img');
+    image.src = book.cover;
+
+    const table = document.querySelector('table');
+    const descriptionBook = document.createElement('div');
+
+    descriptionBook.append(title, author, genre, year, description, image);
+    table.replaceWith( descriptionBook );
+    descriptionBook.classList.add('descriptionBook');
+    let backButton = document.createElement('button');
+    backButton.onclick = function () {
+        descriptionBook.replaceWith(table);
     }
+    backButton.textContent = 'Назад';
+    descriptionBook.append(backButton);
 }

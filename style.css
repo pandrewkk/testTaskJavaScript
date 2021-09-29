@@ -70,10 +70,8 @@ img{
     display: grid;
     width: 300px;
     padding: 20px;
-    margin: 0;
     grid-template-columns: 150px 150px;
     gap: 20px;
 }
-
 
 
